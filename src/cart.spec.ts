@@ -2,9 +2,15 @@ import { expect } from 'chai';
 import 'mocha';
 import * as faker from 'faker'
 import * as sinon from "ts-sinon";
-import { ICart } from './ICart';
-import { ICartLine, ICartItem, IItemQuantity } from './ICartLine';
+import { ICart } from './interfaces/ICart';
+import { ICartLine } from './interfaces/ICartLine';
+import { IItemQuantity } from "./interfaces/IItemQuantity";
+import { ICartItem } from "./interfaces/ICartItem";
 import { Cart } from './Cart';
+import { ICartLineFactory } from './interfaces/ICartLineFactory';
+import { ICartLineStrategy } from './interfaces/ICartLineStrategy';
+import { MultiPriceCartLineStrategy } from './implementations/MultiPriceCartLineStrategy';
+import { CartLineFactory } from './implementations/CartLineFactory';
 
 class MockProduct implements ICartItem {
   getItemID(): string | number {
@@ -21,10 +27,15 @@ class MockProduct implements ICartItem {
 describe('cart', () => {
   let cartId: number
   let cart: ICart
-
+  let cartLineFactory: ICartLineFactory
+  let cartLineStrategy: ICartLineStrategy
+  
   beforeEach(function() {
     cartId = faker.random.number()
-    cart = new Cart(cartId)
+    cartLineFactory = new CartLineFactory()
+    cartLineStrategy = new MultiPriceCartLineStrategy()
+  
+    cart = new Cart(cartId, cartLineFactory, cartLineStrategy)
   })
 
   it('New cart should be a Cart object', () => {
@@ -33,13 +44,13 @@ describe('cart', () => {
 
   it('Get back the id number', () => {
     const cartId: number = faker.random.number()
-    const cart: ICart = new Cart(cartId)
+    const cart: ICart = new Cart(cartId, cartLineFactory, cartLineStrategy)
     expect(cart.getId()).equal(cartId)
   })
 
   it('Get back the id string', () => {
     const cartId: string = faker.random.alphaNumeric(255)
-    const cart: ICart = new Cart(cartId)
+    const cart: ICart = new Cart(cartId, cartLineFactory, cartLineStrategy)
     expect(cart.getId()).equal(cartId)
   })
 

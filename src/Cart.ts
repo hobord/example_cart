@@ -1,38 +1,9 @@
-import { ICart, AbstractCartConstructor } from "./ICart";
-import { ICartItem, ICartLine, ICartLineFactory } from "./ICartLine"
-
-class CartLine implements ICartLine {
-  constructor(
-    protected itemId: number | string,
-    protected quantity: number,
-    protected price: number) {}
-  getItemID(): string | number {
-    return this.itemId
-  }  
-  getQuantity(): number {
-    return this.quantity
-  }
-  setQuantity(quantity: number): void {
-    this.quantity = quantity
-  }
-  getUnitPrice(): number {
-    return this.price
-  }
-  setUnitPrice(price: number): void {
-    this.price = price
-  }
-}
-
-class factory implements ICartLineFactory {
-  create(cartItem: ICartItem): ICartLine {
-    return new CartLine(cartItem.getItemID(), cartItem.getQuantity(), cartItem.getUnitPrice())
-  }
-
-}
+import { ICart, AbstractCartConstructor } from "./interfaces/ICart";
+import { ICartLine } from "./interfaces/ICartLine"
+import { ICartItem } from "./interfaces/ICartItem";
 
 export class Cart extends AbstractCartConstructor implements ICart {
   protected _items: ICartLine[] = []
-  protected static factory:ICartLineFactory = new factory()
   
   getId(): string | number {
     return this.id
@@ -41,21 +12,50 @@ export class Cart extends AbstractCartConstructor implements ICart {
    * Add ICartItem item to cart
    * @param cartItem: ICartItem 
    */
-  addItem(cartItem: ICartItem) {
+  addItem(cartItem: ICartItem): void {
     let found: boolean = false
     for (let index = 0; index < this._items.length; index++) {
       const element = this._items[index];
-      if (element.getItemID() === cartItem.getItemID() && element.getUnitPrice() === cartItem.getUnitPrice()) {
+      if (this._cartLineStrategy.compare(element, cartItem)) {
         const newQuantity: number = cartItem.getQuantity() + element.getQuantity()
         element.setQuantity(newQuantity)
         found = true
-        break;
+        break
       }
     }
     if (found === false) {
-      let cartLine: ICartLine = Cart.factory.create(cartItem)
+      let cartLine: ICartLine = this._cartLineFactory.create(cartItem)
       this._items.push(cartLine)
     }
+  }
+
+  removeItem(cartItem: ICartItem): void {
+    let found: boolean = false
+    for (let index = 0; index < this._items.length; index++) {
+      const element = this._items[index];
+      if (this._cartLineStrategy.compare(element, cartItem)) {
+        const newQuantity: number = cartItem.getQuantity() - element.getQuantity()
+        if (newQuantity<1) {
+          this._items.splice(index, 1);
+        } else {
+          element.setQuantity(newQuantity)
+        }
+        found = true
+        break
+      }
+    }
+    if (found === false) {
+      // TODO: drop exception?
+    }
+  }
+
+  getSumPrice(): number {
+    let sumPrice = 0
+    for (let index = 0; index < this._items.length; index++) {
+      const element = this._items[index];
+      sumPrice += element.getUnitPrice() * element.getQuantity()
+    }
+    return sumPrice
   }
 }
 
