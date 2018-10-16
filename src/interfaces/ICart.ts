@@ -21,12 +21,16 @@ export abstract class AbstractCartConstructor {
 interface Iterable {
   [Symbol.iterator](): Iterator
 }
-interface Iterator {
-  next() : IteratorResult;
-  return?(value? : any) : IteratorResult;
+
+
+*/
+
+export interface ICartIterator {
+  next() : ICartIteratorResult;
+  return?(value? : any) : ICartIteratorResult;
 }
-interface IteratorResult {
-  value : ICartLine|null|undefined;
+
+export interface ICartIteratorResult {
+  value : ICartLine|undefined;
   done : boolean;
 }
-*/
