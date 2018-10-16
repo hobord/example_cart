@@ -3,8 +3,8 @@ import { ICartLine } from "./interfaces/ICartLine"
 import { ICartItem } from "./interfaces/ICartItem";
 
 export class Cart extends AbstractCartConstructor implements ICart {
-  protected _items: ICartLine[] = []
-  
+  protected items: ICartLine[] = []
+
   getId(): string | number {
     return this.id
   }
@@ -14,8 +14,8 @@ export class Cart extends AbstractCartConstructor implements ICart {
    */
   addItem(cartItem: ICartItem): void {
     let found: boolean = false
-    for (let index = 0; index < this._items.length; index++) {
-      const element = this._items[index];
+    for (let index = 0; index < this.items.length; index++) {
+      const element = this.items[index];
       if (this._cartLineStrategy.compare(element, cartItem)) {
         const newQuantity: number = cartItem.getQuantity() + element.getQuantity()
         element.setQuantity(newQuantity)
@@ -25,18 +25,18 @@ export class Cart extends AbstractCartConstructor implements ICart {
     }
     if (found === false) {
       let cartLine: ICartLine = this._cartLineFactory.create(cartItem)
-      this._items.push(cartLine)
+      this.items.push(cartLine)
     }
   }
 
   removeItem(cartItem: ICartItem): void {
     let found: boolean = false
-    for (let index = 0; index < this._items.length; index++) {
-      const element = this._items[index];
+    for (let index = 0; index < this.items.length; index++) {
+      const element = this.items[index];
       if (this._cartLineStrategy.compare(element, cartItem)) {
         const newQuantity: number = cartItem.getQuantity() - element.getQuantity()
         if (newQuantity<1) {
-          this._items.splice(index, 1);
+          this.items.splice(index, 1);
         } else {
           element.setQuantity(newQuantity)
         }
@@ -51,11 +51,33 @@ export class Cart extends AbstractCartConstructor implements ICart {
 
   getSumPrice(): number {
     let sumPrice = 0
-    for (let index = 0; index < this._items.length; index++) {
-      const element = this._items[index];
+    for (let index = 0; index < this.items.length; index++) {
+      const element = this.items[index];
       sumPrice += element.getUnitPrice() * element.getQuantity()
     }
     return sumPrice
   }
+
+  [Symbol.iterator] () {
+    return new ArrayIterator(this.items);  
+  }
 }
 
+class ArrayIterator {
+  private index = 0
+
+  constructor(private array: any[]) {} 
+  
+  next () {
+    var result = { value: undefined, done: false }
+
+    if (this.index < this.array.length) {
+      result.value = this.array[this.index]
+      this.index ++
+    } else {
+      result.done = true
+    }
+
+    return result
+  }
+}

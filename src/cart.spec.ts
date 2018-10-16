@@ -58,6 +58,11 @@ describe('cart', () => {
     const cartItem: ICartItem = new MockProduct()
     cart.addItem(cartItem)
     cart.addItem(cartItem)
+
+    for(let item of cart){
+      console.log(item);
+    }
+  
   })
 
 });
