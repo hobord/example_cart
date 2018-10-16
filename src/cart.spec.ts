@@ -59,10 +59,14 @@ describe('cart', () => {
     cart.addItem(cartItem)
     cart.addItem(cartItem)
 
-    for(let item of cart){
+    for (let item of cart) {
       console.log(item);
     }
-    for(let item of cart){
+    for (let item of cart) {
+      console.log(item);
+    }
+
+    for (let item in cart) {
       console.log(item);
     }
   })

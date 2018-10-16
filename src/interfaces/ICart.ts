@@ -12,10 +12,9 @@ export interface ICart extends Iterable {
 
 export abstract class AbstractCartConstructor {
   constructor(protected readonly id: number | string,
-  protected _cartLineFactory: ICartLineFactory,
-  protected _cartLineStrategy: ICartLineStrategy) {}
+  protected cartLineFactory: ICartLineFactory,
+  protected cartLineStrategy: ICartLineStrategy) {}
 }
-
 
 interface Iterable {
   [Symbol.iterator](): Iterator<ICartLine|undefined>
@@ -24,6 +23,7 @@ interface Iterable {
 interface ICartIterator {
   next() : ICartIteratorResult;
   return?(value? : any) : ICartIteratorResult;
+  throw?(e?: any): IteratorResult<ICartIteratorResult>;
 }
 
 export interface ICartIteratorResult {
