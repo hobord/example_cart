@@ -5,32 +5,26 @@ import * as sinon from "ts-sinon";
 import { ICart } from './ICart';
 import { ICartLine, ICartItem, IItemQuantity } from './ICartLine';
 import { Cart } from './Cart';
-import { ICartItemRepository } from './ICartItemRepository';
-
-class MockCartItemRepository implements ICartItemRepository {
-
-}
 
 class MockProduct implements ICartItem {
   getItemID(): string | number {
-    throw new Error("Method not implemented.");
-  }  getQuantity(): string | number {
-    throw new Error("Method not implemented.");
+    return 1
+  }  
+  getQuantity(): number {
+    return 1
   }
-  getUnitPrice(): string | number {
-    throw new Error("Method not implemented.");
+  getUnitPrice(): number {
+    return 1
   }
 }
 
 describe('cart', () => {
-  let mockCartItemRepository: ICartItemRepository
   let cartId: number
   let cart: ICart
 
   beforeEach(function() {
-      mockCartItemRepository = new MockCartItemRepository()
-      cartId = faker.random.number()
-      cart = new Cart(cartId, mockCartItemRepository)
+    cartId = faker.random.number()
+    cart = new Cart(cartId)
   })
 
   it('New cart should be a Cart object', () => {
@@ -39,19 +33,20 @@ describe('cart', () => {
 
   it('Get back the id number', () => {
     const cartId: number = faker.random.number()
-    const cart: ICart = new Cart(cartId, mockCartItemRepository)
+    const cart: ICart = new Cart(cartId)
     expect(cart.getId()).equal(cartId)
   })
 
   it('Get back the id string', () => {
     const cartId: string = faker.random.alphaNumeric(255)
-    const cart: ICart = new Cart(cartId, mockCartItemRepository)
+    const cart: ICart = new Cart(cartId)
     expect(cart.getId()).equal(cartId)
   })
 
   it('Add new unique cart item', () => {
-
-    cart->addItem(cartItem)
+    const cartItem: ICartItem = new MockProduct()
+    cart.addItem(cartItem)
+    cart.addItem(cartItem)
   })
 
 });

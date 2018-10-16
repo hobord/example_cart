@@ -1,21 +1,23 @@
 export interface ICartLine {
-    getItemID(): number | string
+  getItemID(): number | string
 
-    getQuantity(): number | string
-    setQuantity(quantity: number | string): void
+  getQuantity(): number 
+  setQuantity(quantity: number): void
 
-    getUnitPrice(): number | string
-    setUnitPrice(price: number | string): void
+  getUnitPrice(): number
+  setUnitPrice(price: number): void
 }
 
-
+export interface ICartLineFactory {
+  create(item: ICartItem): ICartLine
+}
 export interface ICartItem {
-    getItemID(): number | string
-    getQuantity(): number | string
-    getUnitPrice(): number | string
+  getItemID(): number | string
+  getQuantity(): number
+  getUnitPrice(): number
 }
 
 export interface IItemQuantity {
-    getItemID(): number | string
-    getQuantity(): number | string
+  getItemID(): number | string
+  getQuantity(): number
 }
