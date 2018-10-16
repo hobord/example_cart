@@ -62,7 +62,9 @@ describe('cart', () => {
     for(let item of cart){
       console.log(item);
     }
-  
+    for(let item of cart){
+      console.log(item);
+    }
   })
 
 });

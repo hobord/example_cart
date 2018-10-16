@@ -9,7 +9,9 @@ export class CartLine implements ICartLine {
     return this.quantity;
   }
   setQuantity(quantity: number): void {
-    this.quantity = quantity;
+    if(quantity>0) {
+      this.quantity = quantity;
+    }
   }
   getUnitPrice(): number {
     return this.price;

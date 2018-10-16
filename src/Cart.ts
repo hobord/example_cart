@@ -4,6 +4,7 @@ import { ICartItem } from "./interfaces/ICartItem";
 
 export class Cart extends AbstractCartConstructor implements ICart {
   protected items: ICartLine[] = []
+  private iteratorIndex = 0
 
   getId(): string | number {
     return this.id
@@ -59,10 +60,31 @@ export class Cart extends AbstractCartConstructor implements ICart {
   }
 
   [Symbol.iterator] () {
-    return new ArrayIterator(this.items);  
+    // return new ArrayIterator(this.items)
+    this.iteratorIndex = 0
+    return this
   }
+  next () {
+    let result: { 
+      value: ICartLine|undefined,
+      done: boolean
+    } = { 
+      value: undefined,
+      done: false
+    }
+
+    if (this.iteratorIndex < this.items.length) {
+      result.value = this.items[this.iteratorIndex]
+      this.iteratorIndex ++
+    } else {
+      result.done = true
+    }
+    return result
+  }
+  
 }
 
+/*
 class ArrayIterator {
   private index = 0
 
@@ -81,3 +103,4 @@ class ArrayIterator {
     return result
   }
 }
+*/
