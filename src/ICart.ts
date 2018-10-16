@@ -2,7 +2,7 @@ import { ICartItem } from "./ICartLine";
 
 export interface ICart {
   getId(): number | string
-  addItem(cartItem: ICartItem)
+  addItem(cartItem: ICartItem): void
 }
 
 export abstract class AbstractCartConstructor {

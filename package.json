@@ -1,10 +1,11 @@
 {
-  "name": "example_cart",
-  "version": "1.0.0",
+  "name": "type_cart",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "mocha -r ts-node/register src/**/*.spec.ts",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
