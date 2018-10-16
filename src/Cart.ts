@@ -1,8 +1,8 @@
-import { ICart, AbstractCartConstructor, ICartIteratorResult, ICartIterator } from "./interfaces/ICart";
+import { ICart, AbstractCartConstructor, ICartIteratorResult } from "./interfaces/ICart";
 import { ICartLine } from "./interfaces/ICartLine"
 import { ICartItem } from "./interfaces/ICartItem";
 
-export class Cart extends AbstractCartConstructor implements ICart, ICartIterator {
+export class Cart extends AbstractCartConstructor implements ICart {
   protected items: ICartLine[] = []
   private iteratorIndex = 0
 
@@ -78,6 +78,12 @@ export class Cart extends AbstractCartConstructor implements ICart, ICartIterato
     }
     return result
   }
+  return(value? : any): ICartIteratorResult {
+    return { 
+      value: this.items[(value) ? value : this.iteratorIndex],
+      done: (this.iteratorIndex < this.items.length)
+    }
+  };
 }
 
 /*

@@ -3,8 +3,7 @@ import { ICartLineFactory } from "./ICartLineFactory";
 import { ICartLineStrategy } from "./ICartLineStrategy";
 import { ICartLine } from "./ICartLine";
 
-export interface ICart {
-  [Symbol.iterator](): Iterator<any>
+export interface ICart extends Iterable {
   getId(): number | string
   addItem(cartItem: ICartItem): void
   removeItem(cartItem: ICartItem): void
@@ -17,15 +16,12 @@ export abstract class AbstractCartConstructor {
   protected _cartLineStrategy: ICartLineStrategy) {}
 }
 
-/*
+
 interface Iterable {
-  [Symbol.iterator](): Iterator
+  [Symbol.iterator](): Iterator<ICartLine|undefined>
 }
 
-
-*/
-
-export interface ICartIterator {
+interface ICartIterator {
   next() : ICartIteratorResult;
   return?(value? : any) : ICartIteratorResult;
 }
