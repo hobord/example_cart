@@ -3,11 +3,11 @@ import { ICartLine } from "../interfaces/ICartLine";
 import { ICartItem } from "../interfaces/ICartItem";
 import { ICartLineFactory } from "../interfaces/ICartLineFactory";
 
-export class MultiPriceCartLineStrategy implements ICartLineStrategy {
+export class SimpleUpdatePriceCartLineStrategy implements ICartLineStrategy {
   constructor(private cartLineFactory: ICartLineFactory) {}
-
+  
   compare(cartLine: ICartLine, cartItem: ICartItem): boolean {
-    return (cartLine.getItemID() === cartItem.getItemID() && cartLine.getUnitPrice() === cartItem.getUnitPrice());
+    return (cartLine.getItemID() === cartItem.getItemID());
   }
 
   addItem(cartLines: ICartLine[], cartItem: ICartItem): void {
@@ -17,6 +17,7 @@ export class MultiPriceCartLineStrategy implements ICartLineStrategy {
       if (this.compare(element, cartItem)) {
         const newQuantity: number = cartItem.getQuantity() + element.getQuantity();
         element.setQuantity(newQuantity);
+        element.setUnitPrice(cartItem.getUnitPrice());
         found = true;
         break;
       }

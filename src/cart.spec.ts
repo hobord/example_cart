@@ -11,8 +11,11 @@ import { ICartLineFactory } from './interfaces/ICartLineFactory';
 import { ICartLineStrategy } from './interfaces/ICartLineStrategy';
 import { MultiPriceCartLineStrategy } from './implementations/MultiPriceCartLineStrategy';
 import { CartLineFactory } from './implementations/CartLineFactory';
+import { SimpleCartLineStrategy } from './implementations/SimpleCartLineStrategy';
+import { SimpleUpdatePriceCartLineStrategy } from './implementations/SimpleUpdatePriceCartLineStrategy';
 
 class MockProduct implements ICartItem {
+  price = 1;
   getItemID(): string | number {
     return 1
   }  
@@ -20,7 +23,10 @@ class MockProduct implements ICartItem {
     return 1
   }
   getUnitPrice(): number {
-    return 1
+    return this.price
+  }
+  setUnitPrice(price: number) {
+    this.price = price
   }
 }
 
@@ -33,7 +39,9 @@ describe('cart', () => {
   beforeEach(function() {
     cartId = faker.random.number()
     cartLineFactory = new CartLineFactory()
-    cartLineStrategy = new MultiPriceCartLineStrategy()
+    // cartLineStrategy = new MultiPriceCartLineStrategy(cartLineFactory)
+    // cartLineStrategy = new SimpleCartLineStrategy(cartLineFactory)
+    cartLineStrategy = new SimpleUpdatePriceCartLineStrategy(cartLineFactory)
   
     cart = new Cart(cartId, cartLineFactory, cartLineStrategy)
   })
@@ -55,16 +63,18 @@ describe('cart', () => {
   })
 
   it('Add new unique cart item', () => {
-    const cartItem: ICartItem = new MockProduct()
+    const cartItem: MockProduct = new MockProduct()
     cart.addItem(cartItem)
-    cart.addItem(cartItem)
+    const cartItem2: MockProduct = new MockProduct()
+    cartItem2.setUnitPrice(23)
+    cart.addItem(cartItem2)
 
     for (let item of cart) {
       console.log(item);
     }
-    for (let item of cart) {
-      console.log(item);
-    }
+    // for (let item of cart) {
+    //   console.log(item);
+    // }
 
     for (let item in cart) {
       console.log(item);

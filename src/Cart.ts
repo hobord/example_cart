@@ -11,7 +11,7 @@ import {
 } from "./interfaces/ICartItem";
 
 export class Cart extends AbstractCartConstructor implements ICart {
-  protected items: ICartLine[] = [];
+  protected cartLines: ICartLine[] = [];
   private iteratorIndex = 0;
 
   getId(): string | number {
@@ -23,20 +23,7 @@ export class Cart extends AbstractCartConstructor implements ICart {
    * @param cartItem: ICartItem
    */
   addItem(cartItem: ICartItem): void {
-    let found: boolean = false;
-    for (let index = 0; index < this.items.length; index++) {
-      const element = this.items[index];
-      if (this.cartLineStrategy.compare(element, cartItem)) {
-        const newQuantity: number = cartItem.getQuantity() + element.getQuantity();
-        element.setQuantity(newQuantity);
-        found = true;
-        break;
-      }
-    }
-    if (found === false) {
-      let cartLine: ICartLine = this.cartLineFactory.create(cartItem);
-      this.items.push(cartLine);
-    }
+    this.cartLineStrategy.addItem(this.cartLines, cartItem)
   }
 
   /**
@@ -44,23 +31,7 @@ export class Cart extends AbstractCartConstructor implements ICart {
    * @param cartItem: ICartItem
    */
   removeItem(cartItem: ICartItem): void {
-    let found: boolean = false;
-    for (let index = 0; index < this.items.length; index++) {
-      const element = this.items[index];
-      if (this.cartLineStrategy.compare(element, cartItem)) {
-        const newQuantity: number = cartItem.getQuantity() - element.getQuantity();
-        if (newQuantity < 1) {
-          this.items.splice(index, 1);
-        } else {
-          element.setQuantity(newQuantity);
-        }
-        found = true;
-        break;
-      }
-    }
-    if (found === false) {
-      // TODO: drop exception?
-    }
+    this.cartLineStrategy.removeItem(this.cartLines, cartItem)
   }
 
   /**
@@ -68,8 +39,8 @@ export class Cart extends AbstractCartConstructor implements ICart {
    */
   getSumPrice(): number {
     let sumPrice = 0;
-    for (let index = 0; index < this.items.length; index++) {
-      const element = this.items[index];
+    for (let index = 0; index < this.cartLines.length; index++) {
+      const element = this.cartLines[index];
       sumPrice += element.getUnitPrice() * element.getQuantity();
     }
     return sumPrice;
@@ -77,7 +48,7 @@ export class Cart extends AbstractCartConstructor implements ICart {
 
   // Make Iterable
   [Symbol.iterator]() {
-    // return new ArrayIterator(this.items)
+    // return new ArrayIterator(this.cartLines)
     this.iteratorIndex = 0;
     return this;
   }
@@ -87,8 +58,8 @@ export class Cart extends AbstractCartConstructor implements ICart {
       done: false
     };
 
-    if (this.iteratorIndex < this.items.length) {
-      result.value = this.items[this.iteratorIndex];
+    if (this.iteratorIndex < this.cartLines.length) {
+      result.value = this.cartLines[this.iteratorIndex];
       this.iteratorIndex++;
     } else {
       result.done = true;
