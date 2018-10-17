@@ -17,7 +17,7 @@ import { SimpleUpdatePriceCartLineStrategy } from './implementations/SimpleUpdat
 class MockProduct implements ICartItem {
   price = 1;
   getItemID(): string | number {
-    return 1
+    return 'ewq34324'
   }  
   getQuantity(): number {
     return 1
@@ -39,9 +39,9 @@ describe('cart', () => {
   beforeEach(function() {
     cartId = faker.random.number()
     cartLineFactory = new CartLineFactory()
-    // cartLineStrategy = new MultiPriceCartLineStrategy(cartLineFactory)
+    cartLineStrategy = new MultiPriceCartLineStrategy(cartLineFactory)
     // cartLineStrategy = new SimpleCartLineStrategy(cartLineFactory)
-    cartLineStrategy = new SimpleUpdatePriceCartLineStrategy(cartLineFactory)
+    // cartLineStrategy = new SimpleUpdatePriceCartLineStrategy(cartLineFactory)
   
     cart = new Cart(cartId, cartLineFactory, cartLineStrategy)
   })
@@ -76,9 +76,14 @@ describe('cart', () => {
     //   console.log(item);
     // }
 
-    for (let item in cart) {
-      console.log(item);
-    }
+    // for (let item in cart) {
+    //   console.log(item);
+    // }
+
+    console.log(cart.getItemsIdWithQuantities())
+    console.log(cart.getAssocItemIdsQuantities())
+    console.log(cart.getSumPrice())
+    console.log(cart.getCartLines())
   })
 
 });

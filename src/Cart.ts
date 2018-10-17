@@ -3,16 +3,14 @@ import {
   AbstractCartConstructor,
   ICartIteratorResult
 } from "./interfaces/ICart";
-import {
-  ICartLine
-} from "./interfaces/ICartLine"
-import {
-  ICartItem
-} from "./interfaces/ICartItem";
+import { ICartLine } from "./interfaces/ICartLine";
+import { ICartItem } from "./interfaces/ICartItem";
+import { IItemQuantity } from "./interfaces/IItemQuantity";
 
 export class Cart extends AbstractCartConstructor implements ICart {
   protected cartLines: ICartLine[] = [];
-  private iteratorIndex = 0;
+  protected iteratorIndex = 0;
+  protected observers: Observer[] = []; // TODO: make subjects
 
   getId(): string | number {
     return this.id;
@@ -23,7 +21,7 @@ export class Cart extends AbstractCartConstructor implements ICart {
    * @param cartItem: ICartItem
    */
   addItem(cartItem: ICartItem): void {
-    this.cartLineStrategy.addItem(this.cartLines, cartItem)
+    this.cartLineStrategy.addItem(this.cartLines, cartItem);
   }
 
   /**
@@ -31,11 +29,15 @@ export class Cart extends AbstractCartConstructor implements ICart {
    * @param cartItem: ICartItem
    */
   removeItem(cartItem: ICartItem): void {
-    this.cartLineStrategy.removeItem(this.cartLines, cartItem)
+    this.cartLineStrategy.removeItem(this.cartLines, cartItem);
+  }
+
+  getCartLines(): ICartLine[] {
+    return this.cartLines;
   }
 
   /**
-   * 
+   * Result sum of price of cart lines
    */
   getSumPrice(): number {
     let sumPrice = 0;
@@ -46,7 +48,45 @@ export class Cart extends AbstractCartConstructor implements ICart {
     return sumPrice;
   }
 
-  // Make Iterable
+  /**
+   * Get quantities for each item (by itemId)
+   * like: [ ItemQuantity { itemId: 'ewq34324', quantity: 2 }, ItemQuantity { itemId: '1sdasda', quantity: 4 } ]
+   */
+  getItemsIdWithQuantities(): IItemQuantity[] {
+    let results: IItemQuantity[] = [];
+
+    if (this.cartLines.length === 0) {
+      return results;
+    }
+
+    let items: any = this.getAssocItemIdsQuantities();
+    for (let key in items) {
+      results.push(new ItemQuantity(key, items[key]));
+    }
+
+    return results;
+  }
+
+  /**
+   * Get associative array of quantities with itemId's key
+   * like: [ ewq34324: 2, 1sdasda: 4 ]
+   */
+  getAssocItemIdsQuantities(): number[] {
+    let items: any = [];
+    for (let index = 0; index < this.cartLines.length; index++) {
+      const element = this.cartLines[index];
+      if (items[element.getItemID()]) {
+        items[element.getItemID()] += element.getQuantity();
+      } else {
+        items[element.getItemID()] = element.getQuantity();
+      }
+    }
+    return items;
+  }
+
+  /**
+   *  Make Iterable
+   */
   [Symbol.iterator]() {
     // return new ArrayIterator(this.cartLines)
     this.iteratorIndex = 0;
@@ -66,8 +106,37 @@ export class Cart extends AbstractCartConstructor implements ICart {
     }
     return result;
   }
+
+  /**
+   * Make observable
+   */
+  register(observer: Observer): void {
+    this.observers.push(observer);
+  }
+
+  notify(): void {
+    let i: number, max: number;
+
+    for (i = 0, max = this.observers.length; i < max; i += 1) {
+      this.observers[i].notify();
+    }
+  }
+}
+class ItemQuantity implements IItemQuantity {
+  constructor(private itemId: number | string, private quantity: number) {}
+  getItemID(): string | number {
+    return this.itemId;
+  }
+  getQuantity(): number {
+    return this.quantity;
+  }
 }
 
+export class Observer {
+  public notify(): void {
+    throw new Error("Abstract Method!");
+  }
+}
 /*
 class ArrayIterator {
   private index = 0
