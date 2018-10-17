@@ -18,7 +18,9 @@ export class Cart extends AbstractCartConstructor implements ICart {
   protected subjects: ISubject = {
     updated: new Subject(),
     itemAdded: new Subject(),
-    itemRemoved: new Subject()
+    itemRemoved: new Subject(),
+    cartBeforeSave: new Subject(),
+    cartSaved: new Subject()
   };
 
   /**
@@ -34,6 +36,9 @@ export class Cart extends AbstractCartConstructor implements ICart {
   // TODO: Interface / refactor
   getEventsNames(): string[] {
     return Object.keys(this.subjects);
+  }
+  getSubject(name: string): Subject {
+    return this.subjects[name];
   }
   // TODO: Interface / refactor
   registerToEvent(event: string, observer: Observer) {
