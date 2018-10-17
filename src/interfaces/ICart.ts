@@ -1,10 +1,11 @@
 import { ICartItem } from "./ICartItem";
 import { ICartLineFactory } from "./ICartLineFactory";
 import { ICartLineStrategy } from "./ICartLineStrategy";
-import { ICartLine, IImmutableCartLine } from "./ICartLine";
+import { IImmutableCartLine } from "./IImmutableCartLine";
 import { IItemQuantity } from "./IItemQuantity";
+import { ICartIterable } from "./Iterable";
 
-export interface ICart extends Iterable {
+export interface ICart extends ICartIterable {
   getId(): number | string;
   addItem(cartItem: ICartItem): void;
   removeItem(cartItem: ICartItem): void;
@@ -20,19 +21,4 @@ export abstract class AbstractCartConstructor {
     protected cartLineFactory: ICartLineFactory,
     protected cartLineStrategy: ICartLineStrategy
   ) {}
-}
-
-export interface Iterable {
-  [Symbol.iterator](): Iterator<IImmutableCartLine | undefined>;
-}
-
-export interface ICartIterator {
-  next(): ICartIteratorResult;
-  return?(value?: any): ICartIteratorResult;
-  throw?(e?: any): IteratorResult<ICartIteratorResult>;
-}
-
-export interface ICartIteratorResult {
-  value: IImmutableCartLine | undefined;
-  done: boolean;
 }

@@ -8,9 +8,3 @@ export interface ICartLine {
   setUnitPrice(price: number): void
 }
 
-export interface IImmutableCartLine {
-  getItemID(): number | string
-  getQuantity(): number
-  getUnitPrice(): number
-}
-

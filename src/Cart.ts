@@ -1,11 +1,13 @@
 import {
   ICart,
-  AbstractCartConstructor,
-  ICartIteratorResult
-} from "./interfaces/ICart";
-import { ICartLine, IImmutableCartLine } from "./interfaces/ICartLine";
+  AbstractCartConstructor} from "./interfaces/ICart";
+import { ICartIteratorResult } from "./interfaces/Iterable";
+import { ICartLine } from "./interfaces/ICartLine";
+import { IImmutableCartLine } from "./interfaces/IImmutableCartLine";
 import { ICartItem } from "./interfaces/ICartItem";
 import { IItemQuantity } from "./interfaces/IItemQuantity";
+import { ImmutableCartLine } from "./implementations/ImmutableCartLine";
+import { ItemQuantity } from "./implementations/ItemQuantity";
 
 export class Cart extends AbstractCartConstructor implements ICart {
   protected cartLines: ICartLine[] = [];
@@ -130,33 +132,6 @@ export class Cart extends AbstractCartConstructor implements ICart {
     }
   }
 }
-class ItemQuantity implements IItemQuantity {
-  constructor(private itemId: number | string, private quantity: number) {}
-  getItemID(): string | number {
-    return this.itemId;
-  }
-  getQuantity(): number {
-    return this.quantity;
-  }
-}
-
-class ImmutableCartLine implements IImmutableCartLine {
-  constructor(
-    protected readonly itemId: number | string,
-    protected readonly quantity: number,
-    protected readonly unitPrice: number
-  ) {}
-  getItemID(): string | number {
-    return this.itemId;
-  }
-  getQuantity(): number {
-    return this.quantity;
-  }
-  getUnitPrice(): number {
-    return this.unitPrice;
-  }
-}
-
 export class Observer {
   public notify(): void {
     throw new Error("Abstract Method!");
