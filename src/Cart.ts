@@ -1,6 +1,4 @@
-import {
-  ICart,
-  AbstractCartConstructor} from "./interfaces/ICart";
+import { ICart, AbstractCartConstructor } from "./interfaces/ICart";
 import { ICartIteratorResult } from "./interfaces/Iterable";
 import { ICartLine } from "./interfaces/ICartLine";
 import { IImmutableCartLine } from "./interfaces/IImmutableCartLine";
@@ -107,7 +105,7 @@ export class Cart extends AbstractCartConstructor implements ICart {
   }
   next() {
     let result: ICartIteratorResult = { value: undefined, done: false };
-    let cartLines:IImmutableCartLine[] = this.getCartLines();
+    let cartLines: IImmutableCartLine[] = this.getCartLines();
     if (this.iteratorIndex < cartLines.length) {
       result.value = cartLines[this.iteratorIndex];
       this.iteratorIndex++;
