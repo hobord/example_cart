@@ -12,26 +12,42 @@ export class Cart extends AbstractCartConstructor implements ICart {
   protected iteratorIndex = 0;
   protected observers: Observer[] = []; // TODO: make subjects
 
+  /**
+   * Return this cart's id
+   *
+   * @returns {(string | number)}
+   * @memberof Cart
+   */
   getId(): string | number {
     return this.id;
   }
 
   /**
-   * Add ICartItem item to cart
-   * @param cartItem: ICartItem
+   * Add ICartItem item to cart by injected strategy.
+   *
+   * @param {ICartItem} cartItem
+   * @memberof Cart
    */
   addItem(cartItem: ICartItem): void {
     this.cartLineStrategy.addItem(this.cartLines, cartItem);
   }
 
   /**
+   * Remove cartItem from cart line by injected strategy.
    *
-   * @param cartItem: ICartItem
+   * @param {ICartItem} cartItem
+   * @memberof Cart
    */
   removeItem(cartItem: ICartItem): void {
     this.cartLineStrategy.removeItem(this.cartLines, cartItem);
   }
 
+  /**
+   * Get immutable cart lines
+   *
+   * @returns {IImmutableCartLine[]}
+   * @memberof Cart
+   */
   getCartLines(): IImmutableCartLine[] {
     let results: IImmutableCartLine[] = [];
     for (let index = 0; index < this.cartLines.length; index++) {
@@ -49,6 +65,9 @@ export class Cart extends AbstractCartConstructor implements ICart {
 
   /**
    * Result sum of price of cart lines
+   *
+   * @returns {number}
+   * @memberof Cart
    */
   getSumPrice(): number {
     let sumPrice = 0;
@@ -62,6 +81,9 @@ export class Cart extends AbstractCartConstructor implements ICart {
   /**
    * Get quantities for each item (by itemId)
    * like: [ ItemQuantity { itemId: 'ewq34324', quantity: 2 }, ItemQuantity { itemId: '1sdasda', quantity: 4 } ]
+   *
+   * @returns {IItemQuantity[]}
+   * @memberof Cart
    */
   getItemsIdWithQuantities(): IItemQuantity[] {
     let results: IItemQuantity[] = [];
@@ -81,6 +103,9 @@ export class Cart extends AbstractCartConstructor implements ICart {
   /**
    * Get associative array of quantities with itemId's key
    * like: [ ewq34324: 2, 1sdasda: 4 ]
+   *
+   * @returns {number[]}
+   * @memberof Cart
    */
   getAssocItemIdsQuantities(): number[] {
     let items: any = [];
