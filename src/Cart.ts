@@ -3,7 +3,7 @@ import {
   AbstractCartConstructor,
   ICartIteratorResult
 } from "./interfaces/ICart";
-import { ICartLine } from "./interfaces/ICartLine";
+import { ICartLine, IImmutableCartLine } from "./interfaces/ICartLine";
 import { ICartItem } from "./interfaces/ICartItem";
 import { IItemQuantity } from "./interfaces/IItemQuantity";
 
@@ -32,8 +32,19 @@ export class Cart extends AbstractCartConstructor implements ICart {
     this.cartLineStrategy.removeItem(this.cartLines, cartItem);
   }
 
-  getCartLines(): ICartLine[] {
-    return this.cartLines;
+  getCartLines(): IImmutableCartLine[] {
+    let results: IImmutableCartLine[] = [];
+    for (let index = 0; index < this.cartLines.length; index++) {
+      const element = this.cartLines[index];
+      results.push(
+        new ImmutableCartLine(
+          element.getItemID(),
+          element.getQuantity(),
+          element.getUnitPrice()
+        )
+      );
+    }
+    return results;
   }
 
   /**
@@ -93,13 +104,10 @@ export class Cart extends AbstractCartConstructor implements ICart {
     return this;
   }
   next() {
-    let result: ICartIteratorResult = {
-      value: undefined,
-      done: false
-    };
-
-    if (this.iteratorIndex < this.cartLines.length) {
-      result.value = this.cartLines[this.iteratorIndex];
+    let result: ICartIteratorResult = { value: undefined, done: false };
+    let cartLines:IImmutableCartLine[] = this.getCartLines();
+    if (this.iteratorIndex < cartLines.length) {
+      result.value = cartLines[this.iteratorIndex];
       this.iteratorIndex++;
     } else {
       result.done = true;
@@ -129,6 +137,23 @@ class ItemQuantity implements IItemQuantity {
   }
   getQuantity(): number {
     return this.quantity;
+  }
+}
+
+class ImmutableCartLine implements IImmutableCartLine {
+  constructor(
+    protected readonly itemId: number | string,
+    protected readonly quantity: number,
+    protected readonly unitPrice: number
+  ) {}
+  getItemID(): string | number {
+    return this.itemId;
+  }
+  getQuantity(): number {
+    return this.quantity;
+  }
+  getUnitPrice(): number {
+    return this.unitPrice;
   }
 }
 

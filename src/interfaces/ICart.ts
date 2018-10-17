@@ -1,14 +1,14 @@
 import { ICartItem } from "./ICartItem";
 import { ICartLineFactory } from "./ICartLineFactory";
 import { ICartLineStrategy } from "./ICartLineStrategy";
-import { ICartLine } from "./ICartLine";
+import { ICartLine, IImmutableCartLine } from "./ICartLine";
 import { IItemQuantity } from "./IItemQuantity";
 
 export interface ICart extends Iterable {
   getId(): number | string;
   addItem(cartItem: ICartItem): void;
   removeItem(cartItem: ICartItem): void;
-  getCartLines(): ICartLine[];
+  getCartLines(): IImmutableCartLine[];
   getSumPrice(): number;
   getItemsIdWithQuantities(): IItemQuantity[];
   getAssocItemIdsQuantities(): number[];
@@ -23,7 +23,7 @@ export abstract class AbstractCartConstructor {
 }
 
 export interface Iterable {
-  [Symbol.iterator](): Iterator<ICartLine | undefined>;
+  [Symbol.iterator](): Iterator<IImmutableCartLine | undefined>;
 }
 
 export interface ICartIterator {
@@ -33,6 +33,6 @@ export interface ICartIterator {
 }
 
 export interface ICartIteratorResult {
-  value: ICartLine | undefined;
+  value: IImmutableCartLine | undefined;
   done: boolean;
 }

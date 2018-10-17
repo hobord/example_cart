@@ -3,6 +3,15 @@ import { ICartLine } from "../interfaces/ICartLine";
 import { ICartItem } from "../interfaces/ICartItem";
 import { ICartLineFactory } from "../interfaces/ICartLineFactory";
 
+/**
+ * This Strategy require different itemId for each CartLine
+ * If add some item what already exists then increase the quantity.
+ * The add method update the unit price too.!!!
+ *
+ * @export
+ * @class SimpleUpdatePriceCartLineStrategy
+ * @implements {ICartLineStrategy}
+ */
 export class SimpleUpdatePriceCartLineStrategy implements ICartLineStrategy {
   constructor(private cartLineFactory: ICartLineFactory) {}
   

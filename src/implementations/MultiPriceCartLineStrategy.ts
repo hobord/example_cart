@@ -3,6 +3,13 @@ import { ICartLine } from "../interfaces/ICartLine";
 import { ICartItem } from "../interfaces/ICartItem";
 import { ICartLineFactory } from "../interfaces/ICartLineFactory";
 
+/**
+ * This Strategy allow multiple CartLine with same itemId but different price
+ *
+ * @export
+ * @class MultiPriceCartLineStrategy
+ * @implements {ICartLineStrategy}
+ */
 export class MultiPriceCartLineStrategy implements ICartLineStrategy {
   constructor(private cartLineFactory: ICartLineFactory) {}
 
