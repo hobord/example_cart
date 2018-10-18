@@ -69,9 +69,9 @@ describe('cart', () => {
     cartItem2.setUnitPrice(23)
     cart.addItem(cartItem2)
 
-    for (let item of cart) {
-      console.log(item);
-    }
+    // for (let item of cart) {
+    //   console.log(item);
+    // }
     // for (let item of cart) {
     //   console.log(item);
     // }

@@ -3,9 +3,8 @@ import { ICartLineFactory } from "./ICartLineFactory";
 import { ICartLineStrategy } from "./ICartLineStrategy";
 import { IImmutableCartLine } from "./IImmutableCartLine";
 import { IItemQuantity } from "./IItemQuantity";
-import { ICartIterable } from "./Iterable";
 
-export interface ICart extends ICartIterable {
+export interface ICart {
   getId(): number | string;
   addItem(cartItem: ICartItem): void;
   removeItem(cartItem: ICartItem): void;
