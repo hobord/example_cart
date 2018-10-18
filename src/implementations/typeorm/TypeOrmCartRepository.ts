@@ -1,10 +1,9 @@
 import { ICartRepository } from "../../interfaces/ICartRepository";
 import { ICart } from "../../interfaces/ICart";
 import { Connection } from "typeorm";
-import { CartDbModel } from "./CartDbModel";
+import { CartDbModel } from "./entities/CartDbModel";
 import { ICartFactory } from "../../interfaces/ICartFactory";
-import { CartLineDbModel } from "./CartLineDbModel";
-import { Cart } from "../../Cart";
+import { CartLineDbModel } from "./entities/CartLineDbModel";
 
 export class TypeOrmCartRepository implements ICartRepository {
   constructor(
@@ -35,6 +34,7 @@ export class TypeOrmCartRepository implements ICartRepository {
         });
     });
   }
+
   create(): Promise<ICart> {
     const cart: ICart = this.cartFactory.createCartById(null);
     return new Promise<ICart>(resolve => {

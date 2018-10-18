@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
 import { CartDbModel } from "./CartDbModel";
-import { ICartItem } from "../../interfaces/ICartItem";
+import { ICartItem } from "../../../interfaces/ICartItem";
 
 @Entity()
 export class CartLineDbModel implements ICartItem{
