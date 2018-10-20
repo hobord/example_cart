@@ -19,19 +19,30 @@ describe("MultiPriceCartLineStrategy", () => {
 
   it("Simple quantity test", () => {
     cartLines = [];
-    let price: number = faker.random.number({ min: 1 });
-    let quantity: number = faker.random.number({ min: 1 });
+    let price: number = faker.random.number({
+      min: 1
+    });
+    let quantity: number = faker.random.number({
+      min: 1
+    });
     let sumQuantity: number = 0;
 
-    let iteration: number = faker.random.number({ min: 1, max: 100 });
+    let iteration: number = faker.random.number({
+      min: 1,
+      max: 100
+    });
     for (let index = 0; index < iteration; index++) {
-      cartItem = <ICartItem>{ getItemID() {
+      cartItem = <ICartItem>{
+        getItemID() {
           return 1;
-        }, getQuantity() {
+        },
+        getQuantity() {
           return quantity;
-        }, getUnitPrice() {
+        },
+        getUnitPrice() {
           return price;
-        } };
+        }
+      };
       sumQuantity += quantity;
       strategy.addItem(cartLines, cartItem);
     }
@@ -40,18 +51,27 @@ describe("MultiPriceCartLineStrategy", () => {
 
   it("Simple price test", () => {
     cartLines = [];
-    let price: number = faker.random.number({ min: 1 });
-    let quantity: number = faker.random.number({ min: 1 });
+    let price: number = faker.random.number({
+      min: 1
+    });
+    let quantity: number = faker.random.number({
+      min: 1
+    });
     let sumQuantity: number = 0;
 
-    let iteration: number = faker.random.number({ min: 1, max: 100 });
+    let iteration: number = faker.random.number({
+      min: 1,
+      max: 100
+    });
     for (let index = 0; index < iteration; index++) {
       cartItem = <ICartItem>{
         getItemID() {
           return 1;
-        }, getQuantity() {
+        },
+        getQuantity() {
           return quantity;
-        }, getUnitPrice() {
+        },
+        getUnitPrice() {
           return price;
         }
       };
@@ -63,19 +83,29 @@ describe("MultiPriceCartLineStrategy", () => {
 
   it("Multi price test", () => {
     cartLines = [];
-    let quantity: number = faker.random.number({ min: 1 });
+    let quantity: number = faker.random.number({
+      min: 1
+    });
     let sumQuantity: number = 0;
 
-    let iteration: number = faker.random.number({ min: 1, max: 100 });
+    let iteration: number = faker.random.number({
+      min: 1,
+      max: 100
+    });
     for (let index = 0; index < iteration; index++) {
-      let price: number = faker.random.number({ min: 1, max: 100 });
+      let price: number = faker.random.number({
+        min: 1,
+        max: 100
+      });
       cartItem = <ICartItem>{
         getItemID() {
           return 1;
-        }, getQuantity() {
+        },
+        getQuantity() {
           return quantity;
-        }, getUnitPrice() {
-          return price + ((index + 1) * 100);
+        },
+        getUnitPrice() {
+          return price + (index + 1) * 100;
         }
       };
       sumQuantity += quantity;
@@ -86,17 +116,26 @@ describe("MultiPriceCartLineStrategy", () => {
 
   it("Add different item ids test", () => {
     cartLines = [];
-    let iteration: number = faker.random.number({ min: 1, max: 100 });
+    let iteration: number = faker.random.number({
+      min: 1,
+      max: 100
+    });
     for (let index = 0; index < iteration; index++) {
-      let price: number = faker.random.number({ min: 1 });
-      let quantity: number = faker.random.number({ min: 1 });
+      let price: number = faker.random.number({
+        min: 1
+      });
+      let quantity: number = faker.random.number({
+        min: 1
+      });
 
       cartItem = <ICartItem>{
         getItemID() {
           return index;
-        }, getQuantity() {
+        },
+        getQuantity() {
           return quantity;
-        }, getUnitPrice() {
+        },
+        getUnitPrice() {
           return price;
         }
       };
