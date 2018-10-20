@@ -2,7 +2,7 @@ import { ICartIteratorResult, ICartIterable } from "./interfaces/Iterable";
 import { IImmutableCartLine } from "./interfaces/IImmutableCartLine";
 import { ObservableCart } from "./ObservableCart";
 
-export class IterableObservableCart extends ObservableCart implements  ICartIterable {
+export class IterableObservableCart extends ObservableCart implements ICartIterable {
   protected iteratorIndex = 0;
 
   [Symbol.iterator]() {
