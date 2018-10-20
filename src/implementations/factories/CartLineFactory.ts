@@ -1,7 +1,7 @@
-import { ICartLine } from "../interfaces/ICartLine";
-import { ICartItem } from "../interfaces/ICartItem";
-import { ICartLineFactory } from "../interfaces/ICartLineFactory";
-import { CartLine } from "../implementations/CartLine";
+import { ICartLine } from "../../interfaces/ICartLine";
+import { ICartItem } from "../../interfaces/ICartItem";
+import { ICartLineFactory } from "../../interfaces/ICartLineFactory";
+import { CartLine } from "../CartLine";
 
 /**
  * CartLine factory
@@ -18,7 +18,7 @@ export class CartLineFactory implements ICartLineFactory {
    * @returns {ICartLine}
    * @memberof CartLineFactory
    */
-  create(cartItem: ICartItem): ICartLine {
+  createFromItem(cartItem: ICartItem): ICartLine {
     return new CartLine(cartItem.getItemID(), cartItem.getQuantity(), cartItem.getUnitPrice());
   }
 }

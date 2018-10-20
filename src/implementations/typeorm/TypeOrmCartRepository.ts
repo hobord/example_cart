@@ -3,21 +3,16 @@ import { ICart } from "../../interfaces/ICart";
 import { Connection } from "typeorm";
 import { CartDbModel } from "./entities/CartDbModel";
 import { ICartFactory } from "../../interfaces/ICartFactory";
-import { CartLineDbModel } from "./entities/CartLineDbModel";
+import { CartFactoryDbModelDecorated } from "./CartFactoryDbModelDecorated";
+import { CartLineDbModelFactory } from "./CartLineDbModelFactory";
 
 export class TypeOrmCartRepository implements ICartRepository {
-  constructor(
-    private connection: Connection,
-    private cartFactory: ICartFactory
-  ) {}
+  protected cartFactory: CartFactoryDbModelDecorated;
+  protected cartLineDbModelFactory: CartLineDbModelFactory;
 
-  createCartFromModel(cartDbModel: CartDbModel): ICart {
-    const cart: ICart = this.cartFactory.createCartById(cartDbModel.id);
-    for (let index = 0; index < cartDbModel.cartLines.length; index++) {
-      const cartLineDbModel = cartDbModel.cartLines[index];
-      cart.addItem(cartLineDbModel);
-    }
-    return cart;
+  constructor(protected connection: Connection, cartFactory: ICartFactory) {
+    this.cartFactory = new CartFactoryDbModelDecorated(cartFactory);
+    this.cartLineDbModelFactory = new CartLineDbModelFactory();
   }
 
   getById(cartId: string | number): Promise<ICart> {
@@ -26,7 +21,7 @@ export class TypeOrmCartRepository implements ICartRepository {
       cartDbRepository
         .findOne(cartId, { relations: ["cartLines"] })
         .then(cartDbModel => {
-          const cart: ICart = this.createCartFromModel(cartDbModel);
+          const cart: ICart = this.cartFactory.createCartFromModel(cartDbModel);
           resolve(cart);
         })
         .catch(error => {
@@ -41,6 +36,7 @@ export class TypeOrmCartRepository implements ICartRepository {
       resolve(cart);
     });
   }
+
   save(cart: ICart): Promise<ICart> {
     let cartDbModel: CartDbModel = new CartDbModel();
     cartDbModel.id = <number>cart.getId();
@@ -48,19 +44,16 @@ export class TypeOrmCartRepository implements ICartRepository {
 
     for (let index = 0; index < cartLines.length; index++) {
       const cartLine = cartLines[index];
-      const cartLineDbModel = new CartLineDbModel();
-
-      cartLineDbModel.cartId = cartDbModel.id;
-      cartLineDbModel.itemId = <number>cartLine.getItemID();
-      cartLineDbModel.quantity = cartLine.getQuantity();
-      cartLineDbModel.unitPrice = cartLine.getUnitPrice();
-
+      const cartLineDbModel = this.cartLineDbModelFactory.createWithCartIdFromCartLine(
+        cartDbModel.id,
+        cartLine
+      );
       cartDbModel.cartLines.push(cartLineDbModel);
     }
 
     return new Promise<ICart>(resolve => {
       this.connection.manager.save(cartDbModel).then(cartDbModel => {
-        const cart: ICart = this.createCartFromModel(cartDbModel);
+        const cart: ICart = this.cartFactory.createCartFromModel(cartDbModel);
         resolve(cart);
       });
     });

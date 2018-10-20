@@ -1,8 +1,8 @@
 import { TypeOrmCartRepository } from "../src/implementations/typeorm/TypeOrmCartRepository";
 import { createConnection } from "typeorm";
-import { CartFactory } from "../src/implementations/CartFactory";
-import { CartLineFactory } from "../src/implementations/CartLineFactory";
-import { MultiPriceCartLineStrategy } from "../src/implementations/MultiPriceCartLineStrategy";
+import { CartFactory } from "../src/implementations/factories/CartFactory";
+import { CartLineFactory } from "../src/implementations/factories/CartLineFactory";
+import { MultiPriceCartLineStrategy } from "../src/implementations/startegies/MultiPriceCartLineStrategy";
 
 
 createConnection({

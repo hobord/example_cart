@@ -1,7 +1,7 @@
-import { ICartLineStrategy } from "../interfaces/ICartLineStrategy";
-import { ICartLine } from "../interfaces/ICartLine";
-import { ICartItem } from "../interfaces/ICartItem";
-import { ICartLineFactory } from "../interfaces/ICartLineFactory";
+import { ICartLineStrategy } from "../../interfaces/ICartLineStrategy";
+import { ICartLine } from "../../interfaces/ICartLine";
+import { ICartItem } from "../../interfaces/ICartItem";
+import { ICartLineFactory } from "../../interfaces/ICartLineFactory";
 
 /**
  * This Strategy allow multiple CartLine with same itemId but different price
@@ -29,7 +29,7 @@ export class MultiPriceCartLineStrategy implements ICartLineStrategy {
       }
     }
     if (found === false) {
-      let cartLine: ICartLine = this.cartLineFactory.create(cartItem);
+      let cartLine: ICartLine = this.cartLineFactory.createFromItem(cartItem);
       cartLines.push(cartLine);
     }
   }

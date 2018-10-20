@@ -1,7 +1,7 @@
-import { ICartLineStrategy } from "../interfaces/ICartLineStrategy";
-import { ICartLine } from "../interfaces/ICartLine";
-import { ICartItem } from "../interfaces/ICartItem";
-import { ICartLineFactory } from "../interfaces/ICartLineFactory";
+import { ICartLineStrategy } from "../../interfaces/ICartLineStrategy";
+import { ICartLine } from "../../interfaces/ICartLine";
+import { ICartItem } from "../../interfaces/ICartItem";
+import { ICartLineFactory } from "../../interfaces/ICartLineFactory";
 
 /**
  * This Strategy require different itemId for each CartLine
@@ -31,7 +31,7 @@ export class SimpleCartLineStrategy implements ICartLineStrategy {
       }
     }
     if (found === false) {
-      let cartLine: ICartLine = this.cartLineFactory.create(cartItem);
+      let cartLine: ICartLine = this.cartLineFactory.createFromItem(cartItem);
       cartLines.push(cartLine);
     }
   }

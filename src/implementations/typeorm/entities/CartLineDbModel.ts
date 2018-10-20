@@ -1,12 +1,20 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
 import { CartDbModel } from "./CartDbModel";
 import { ICartItem } from "../../../interfaces/ICartItem";
+import { IImmutableCartLine } from "../../../interfaces/IImmutableCartLine";
 
 @Entity()
-export class CartLineDbModel implements ICartItem{
+export class CartLineDbModel implements ICartItem {
+  loadDataFromCartLine(cartLine: IImmutableCartLine): void {
+    this.itemId = <number>cartLine.getItemID();
+    this.quantity = cartLine.getQuantity();
+    this.unitPrice = cartLine.getUnitPrice();
+  }
+
   getItemID(): string | number {
     return this.id;
   }
+  
   getQuantity(): number {
     return this.quantity;
   }
@@ -19,7 +27,7 @@ export class CartLineDbModel implements ICartItem{
 
   @Column()
   cartId: number;
-  
+
   @Column()
   itemId: number;
 

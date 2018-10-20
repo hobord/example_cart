@@ -9,10 +9,10 @@ import { ICartItem } from "./interfaces/ICartItem";
 import { Cart } from './Cart';
 import { ICartLineFactory } from './interfaces/ICartLineFactory';
 import { ICartLineStrategy } from './interfaces/ICartLineStrategy';
-import { MultiPriceCartLineStrategy } from './implementations/MultiPriceCartLineStrategy';
-import { CartLineFactory } from './implementations/CartLineFactory';
-import { SimpleCartLineStrategy } from './implementations/SimpleCartLineStrategy';
-import { SimpleUpdatePriceCartLineStrategy } from './implementations/SimpleUpdatePriceCartLineStrategy';
+import { MultiPriceCartLineStrategy } from './implementations/startegies/MultiPriceCartLineStrategy';
+import { CartLineFactory } from './implementations/factories/CartLineFactory';
+import { SimpleCartLineStrategy } from './implementations/startegies/SimpleCartLineStrategy';
+import { SimpleUpdatePriceCartLineStrategy } from './implementations/startegies/SimpleUpdatePriceCartLineStrategy';
 
 class MockProduct implements ICartItem {
   price = 1;
