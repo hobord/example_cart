@@ -2,7 +2,7 @@ import { TypeOrmCartRepository } from "../src/implementations/typeorm/TypeOrmCar
 import { createConnection } from "typeorm";
 import { CartFactory } from "../src/implementations/factories/CartFactory";
 import { CartLineFactory } from "../src/implementations/factories/CartLineFactory";
-import { MultiPriceCartLineStrategy } from "../src/implementations/startegies/MultiPriceCartLineStrategy";
+import { MultiPriceCartLineStrategy } from "../src/implementations/strategies/MultiPriceCartLineStrategy";
 
 
 createConnection({

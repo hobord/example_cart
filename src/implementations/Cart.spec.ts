@@ -2,17 +2,17 @@ import { expect } from 'chai';
 import 'mocha';
 import * as faker from 'faker'
 import * as sinon from "ts-sinon";
-import { ICart } from './interfaces/ICart';
-import { ICartLine } from './interfaces/ICartLine';
-import { IItemQuantity } from "./interfaces/IItemQuantity";
-import { ICartItem } from "./interfaces/ICartItem";
+import { ICart } from '../interfaces/ICart';
+import { ICartLine } from '../interfaces/ICartLine';
+import { IItemQuantity } from "../interfaces/IItemQuantity";
+import { ICartItem } from "../interfaces/ICartItem";
 import { Cart } from './Cart';
-import { ICartLineFactory } from './interfaces/ICartLineFactory';
-import { ICartLineStrategy } from './interfaces/ICartLineStrategy';
-import { MultiPriceCartLineStrategy } from './implementations/startegies/MultiPriceCartLineStrategy';
-import { CartLineFactory } from './implementations/factories/CartLineFactory';
-import { SimpleCartLineStrategy } from './implementations/startegies/SimpleCartLineStrategy';
-import { SimpleUpdatePriceCartLineStrategy } from './implementations/startegies/SimpleUpdatePriceCartLineStrategy';
+import { ICartLineFactory } from '../interfaces/ICartLineFactory';
+import { ICartLineStrategy } from '../interfaces/ICartLineStrategy';
+import { MultiPriceCartLineStrategy } from './strategies/MultiPriceCartLineStrategy';
+import { CartLineFactory } from './factories/CartLineFactory';
+import { SimpleCartLineStrategy } from './strategies/SimpleCartLineStrategy';
+import { SimpleUpdatePriceCartLineStrategy } from './strategies/SimpleUpdatePriceCartLineStrategy';
 
 class MockProduct implements ICartItem {
   price = 1;

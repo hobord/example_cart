@@ -1,11 +1,15 @@
-import { ICartItem } from "./interfaces/ICartItem";
-import { Cart } from "./Cart";
+import { ICartItem } from "../../interfaces/ICartItem";
+import { Cart } from "../Cart";
+import { ICart } from "../../interfaces/ICart";
+import { IImmutableCartLine } from "../../interfaces/IImmutableCartLine";
+import { IItemQuantity } from "../../interfaces/IItemQuantity";
 
 interface ISubject {
   [key: string]: Subject;
 }
 
-export class ObservableCart extends Cart {
+export class ObservableCartDecorator implements ICart {
+  constructor(protected cart: ICart) {}
 
   // TODO: Interface / refactor
   protected subjects: ISubject = {
@@ -30,6 +34,22 @@ export class ObservableCart extends Cart {
     }
   }
 
+  getId(): string | number {
+    return this.cart.getId();
+  }
+  getCartLines(): IImmutableCartLine[] {
+    return this.cart.getCartLines();
+  }
+  getSumPrice(): number {
+    return this.cart.getSumPrice();
+  }
+  getItemsIdWithQuantities(): IItemQuantity[] {
+    return this.cart.getItemsIdWithQuantities();
+  }
+  getAssocItemIdsQuantities(): number[] {
+    return this.cart.getAssocItemIdsQuantities();
+  }
+
   /**
    * Add ICartItem item to cart by injected strategy.
    *
@@ -37,7 +57,7 @@ export class ObservableCart extends Cart {
    * @memberof Cart
    */
   addItem(cartItem: ICartItem): void {
-    super.addItem(cartItem);
+    this.cart.addItem(cartItem);
     this.subjects.updated.notify();
     this.subjects.itemAdded.notify();
   }
@@ -49,12 +69,11 @@ export class ObservableCart extends Cart {
    * @memberof Cart
    */
   removeItem(cartItem: ICartItem): void {
-    super.removeItem(cartItem);
+    this.cart.removeItem(cartItem);
     this.subjects.updated.notify();
     this.subjects.itemRemoved.notify();
   }
-
-  }
+}
 
 class Subject {
   private observers: Observer[] = [];

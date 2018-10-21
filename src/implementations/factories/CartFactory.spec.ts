@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import "mocha";
 import * as faker from "faker";
-import { Cart } from "../../Cart";
+import { Cart } from "../Cart";
 import { ICart } from "../../interfaces/ICart";
 import { ICartLineFactory } from "../../interfaces/ICartLineFactory";
 import { ICartLineStrategy } from "../../interfaces/ICartLineStrategy";

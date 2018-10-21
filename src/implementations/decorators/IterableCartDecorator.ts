@@ -1,8 +1,8 @@
-import { ICart } from "./interfaces/ICart";
-import { ICartIterable, ICartIteratorResult } from "./interfaces/Iterable";
-import { IImmutableCartLine } from "./interfaces/IImmutableCartLine";
-import { ICartItem } from "./interfaces/ICartItem";
-import { IItemQuantity } from "./interfaces/IItemQuantity";
+import { ICart } from "../../interfaces/ICart";
+import { ICartIterable, ICartIteratorResult } from "../../interfaces/Iterable";
+import { IImmutableCartLine } from "../../interfaces/IImmutableCartLine";
+import { ICartItem } from "../../interfaces/ICartItem";
+import { IItemQuantity } from "../../interfaces/IItemQuantity";
 
 export class IterableCartDecorator implements ICart, ICartIterable {
 

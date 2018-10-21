@@ -1,6 +1,6 @@
 import { ICartFactory, AbstractCartFactory } from "../../interfaces/ICartFactory";
 import { ICart } from "../../interfaces/ICart";
-import { Cart } from "../../Cart";
+import { Cart } from "../Cart";
 
 export class CartFactory extends AbstractCartFactory implements ICartFactory {
   createCartById(id: any): ICart {

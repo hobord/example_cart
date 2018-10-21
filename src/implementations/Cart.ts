@@ -1,10 +1,10 @@
-import { ICart, AbstractCartConstructor } from "./interfaces/ICart";
-import { ICartLine } from "./interfaces/ICartLine";
-import { IImmutableCartLine } from "./interfaces/IImmutableCartLine";
-import { ICartItem } from "./interfaces/ICartItem";
-import { IItemQuantity } from "./interfaces/IItemQuantity";
-import { ImmutableCartLine } from "./implementations/ImmutableCartLine";
-import { ItemQuantity } from "./implementations/ItemQuantity";
+import { ICart, AbstractCartConstructor } from "../interfaces/ICart";
+import { ICartLine } from "../interfaces/ICartLine";
+import { IImmutableCartLine } from "../interfaces/IImmutableCartLine";
+import { ICartItem } from "../interfaces/ICartItem";
+import { IItemQuantity } from "../interfaces/IItemQuantity";
+import { ImmutableCartLine } from "./ImmutableCartLine";
+import { ItemQuantity } from "./ItemQuantity";
 
 export class Cart extends AbstractCartConstructor implements ICart {
   protected cartLines: ICartLine[] = [];
