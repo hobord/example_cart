@@ -53,8 +53,10 @@ export class TypeOrmCartRepository implements ICartRepository {
           );
           await transactionalEntityManager.save(cartLineDbModel)
         }
+      }).catch(error => {
+        throw new Error("Method not implemented." + error);
       });
-      
+
       resolve(this.getById(cartDbModel.id));
     });
   }
