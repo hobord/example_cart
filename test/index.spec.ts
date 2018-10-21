@@ -40,7 +40,6 @@ createConnection({
 
   let cart = await cartRepository.create();
 
-
   let cartItem = new Product()
   cart.addItem(cartItem)
   cart.addItem(cartItem)
