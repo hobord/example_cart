@@ -63,13 +63,15 @@ export class TypeOrmCartRepository implements ICartRepository {
           await queryRunner.manager.save(cartLineDbModel)
         }
 
+        await queryRunner.commitTransaction();
+        resolve(this.getById(cartDbModel.id));
       } catch (error) {
         await queryRunner.rollbackTransaction();
         throw new Error("Method not implemented." + error);
+      } finally {
+        // you need to release query runner which is manually created:
+        await queryRunner.release();
       }
-
-      await queryRunner.commitTransaction();
-      resolve(this.getById(cartDbModel.id));
     });
   }
 }
