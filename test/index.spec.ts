@@ -3,6 +3,22 @@ import { createConnection } from "typeorm";
 import { CartFactory } from "../src/implementations/factories/CartFactory";
 import { CartLineFactory } from "../src/implementations/factories/CartLineFactory";
 import { MultiPriceCartLineStrategy } from "../src/implementations/strategies/MultiPriceCartLineStrategy";
+import { ICartItem } from "../src/interfaces";
+import * as faker from "faker";
+
+class Product implements ICartItem {
+  getItemID(): string | number {
+    return faker.random.number()
+  }  
+  getQuantity(): number {
+    return faker.random.number()
+  }
+  getUnitPrice(): number {
+    return faker.random.number()
+  }
+
+  
+}
 
 
 createConnection({
@@ -23,6 +39,19 @@ createConnection({
   const cartRepository = new TypeOrmCartRepository(connection, cartFactory);
 
   let cart = await cartRepository.create();
+
+
+  let cartItem = new Product()
+  cart.addItem(cartItem)
+  cart.addItem(cartItem)
+  cart.addItem(cartItem)
+  
+  cart = await cartRepository.save(cart);
+
+  cart.addItem(cartItem)
+
   cart = await cartRepository.save(cart);
   console.log(cart)
+}).catch(error => {
+  console.log(error)
 });

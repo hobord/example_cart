@@ -7,12 +7,19 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/dist/test/index.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Mocha All",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-r",
                 "ts-node/register",
-                "src/**/*.spec.ts"
+                "src/**/*.spec.ts",
+                "test/**/*.spec.ts",
             ],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",

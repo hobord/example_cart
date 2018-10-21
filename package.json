@@ -2,10 +2,12 @@
   "name": "type_cart",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "test/index.js",
   "scripts": {
-    "test": "mocha -r ts-node/register src/**/*.spec.ts",
-    "build": "tsc"
+    "test": "mocha -r ts-node/register src/**/*.spec.ts test/**/*.spec.ts",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "build": "tsc",
   },
   "author": "",
   "license": "ISC",
@@ -22,7 +24,8 @@
     "tslint": "^5.11.0"
   },
   "dependencies": {
-    "typeorm": "^0.2.7",
+    "mysql": "^2.16.0",
+    "typeorm": "^0.2.8",
     "typescript": "^3.1.3"
   }
 }

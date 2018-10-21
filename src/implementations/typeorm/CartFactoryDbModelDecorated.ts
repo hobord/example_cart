@@ -11,9 +11,11 @@ export class CartFactoryDbModelDecorated implements ICartFactory {
 
   createCartFromModel(cartDbModel: CartDbModel): ICart {
     const cart: ICart = this.cartFactory.createCartById(cartDbModel.id);
-    for (let index = 0; index < cartDbModel.cartLines.length; index++) {
-      const cartLineDbModel = cartDbModel.cartLines[index];
-      cart.addItem(cartLineDbModel);
+    if(cartDbModel.cartLines) {
+      for (let index = 0; index < cartDbModel.cartLines.length; index++) {
+        const cartLineDbModel = cartDbModel.cartLines[index];
+        cart.addItem(cartLineDbModel);
+      }
     }
     return cart;
   }

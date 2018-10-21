@@ -42,19 +42,20 @@ export class TypeOrmCartRepository implements ICartRepository {
     cartDbModel.id = <number>cart.getId();
     const cartLines = cart.getCartLines();
 
-    for (let index = 0; index < cartLines.length; index++) {
-      const cartLine = cartLines[index];
-      const cartLineDbModel = this.cartLineDbModelFactory.createWithCartIdFromCartLine(
-        cartDbModel.id,
-        cartLine
-      );
-      cartDbModel.cartLines.push(cartLineDbModel);
-    }
-
     return new Promise<ICart>(resolve => {
       this.connection.manager.save(cartDbModel).then(cartDbModel => {
-        const cart: ICart = this.cartFactory.createCartFromModel(cartDbModel);
-        resolve(cart);
+        let promises: Promise<any>[] = []
+        for (let index = 0; index < cartLines.length; index++) {
+          const cartLine = cartLines[index];
+          const cartLineDbModel = this.cartLineDbModelFactory.createWithCartIdFromCartLine(
+            cartDbModel.id,
+            cartLine
+          );
+          promises.push(this.connection.manager.save(cartLineDbModel))
+        }
+        Promise.all(promises).then(()=>{
+          resolve(this.getById(cartDbModel.id));
+        })
       });
     });
   }
