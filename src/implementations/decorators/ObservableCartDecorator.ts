@@ -1,6 +1,5 @@
 import { ICartItem } from "../../interfaces/ICartItem";
 import { ICart } from "../../interfaces/ICart";
-import { IImmutableCartLine } from "../../interfaces/IImmutableCartLine";
 import { IItemQuantity } from "../../interfaces/IItemQuantity";
 
 export interface Observable {
@@ -29,7 +28,7 @@ export class ObservableCartDecorator implements ICart, Observable {
   getId(): string | number {
     return this.cart.getId();
   }
-  getCartLines(): IImmutableCartLine[] {
+  getCartLines(): ICartItem[] {
     return this.cart.getCartLines();
   }
   getSumPrice(): number {

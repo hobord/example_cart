@@ -1,5 +1,5 @@
-import { IImmutableCartLine } from "../../interfaces/IImmutableCartLine";
 import { CartLineDbModel } from "./entities/CartLineDbModel";
+import { ICartItem } from "../../interfaces";
 
 export class CartLineDbModelFactory {
 
@@ -8,7 +8,7 @@ export class CartLineDbModelFactory {
     return cartLineDbModel;
   }
   
-  protected fillWithCartLine(cartLineDbModel, cartLine) {
+  protected fillWithCartLine(cartLineDbModel, cartLine: ICartItem) {
     cartLineDbModel.itemId = <number>cartLine.getItemID();
     cartLineDbModel.quantity = cartLine.getQuantity();
     cartLineDbModel.unitPrice = cartLine.getUnitPrice();
@@ -24,7 +24,7 @@ export class CartLineDbModelFactory {
     return this.setCartId(cartLineDbModel, cartId);
   }
 
-  createFromCartLine(cartLine: IImmutableCartLine) {
+  createFromCartLine(cartLine: ICartItem) {
     const cartLineDbModel = this.create();
     return this.fillWithCartLine(cartLineDbModel, cartLine);
   }

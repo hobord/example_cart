@@ -1,6 +1,6 @@
-import { IImmutableCartLine } from "./IImmutableCartLine";
+import { ICartItem } from ".";
 export interface ICartIterable {
-  [Symbol.iterator](): Iterator<IImmutableCartLine | undefined>;
+  [Symbol.iterator](): Iterator<ICartItem | undefined>;
 }
 export interface ICartIterator {
   next(): ICartIteratorResult;
@@ -8,6 +8,6 @@ export interface ICartIterator {
   throw?(e?: any): IteratorResult<ICartIteratorResult>;
 }
 export interface ICartIteratorResult {
-  value: IImmutableCartLine | undefined;
+  value: ICartItem | undefined;
   done: boolean;
 }

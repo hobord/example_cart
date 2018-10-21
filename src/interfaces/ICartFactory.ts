@@ -6,9 +6,12 @@ export interface ICartFactory {
   createCartById(id): ICart;
 }
 
-export abstract class AbstractCartFactory {
+export abstract class AbstractCartFactory implements ICartFactory{
   constructor(
-    protected readonly cartLineFactory: ICartLineFactory,
-    protected readonly cartLineStrategy: ICartLineStrategy
-  ) {}
+    public readonly cartLineFactory: ICartLineFactory,
+    public readonly cartLineStrategy: ICartLineStrategy
+    ) {}
+  createCartById(id: any): ICart {
+    throw new Error("Method not implemented.");
+  }
 }

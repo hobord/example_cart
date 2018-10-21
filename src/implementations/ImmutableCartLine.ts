@@ -1,6 +1,6 @@
-import { IImmutableCartLine } from "../interfaces/IImmutableCartLine";
+import { ICartItem } from "../interfaces/ICartItem";
 
-export class ImmutableCartLine implements IImmutableCartLine {
+export class ImmutableCartLine implements ICartItem {
   constructor(
     protected readonly itemId: number | string,
     protected readonly quantity: number,

@@ -1,6 +1,5 @@
 import { ICart } from "../../interfaces/ICart";
 import { ICartIterable, ICartIteratorResult } from "../../interfaces/Iterable";
-import { IImmutableCartLine } from "../../interfaces/IImmutableCartLine";
 import { ICartItem } from "../../interfaces/ICartItem";
 import { IItemQuantity } from "../../interfaces/IItemQuantity";
 
@@ -17,7 +16,7 @@ export class IterableCartDecorator implements ICart, ICartIterable {
 
   next() {
     let result: ICartIteratorResult = { value: undefined, done: false };
-    let cartLines: IImmutableCartLine[] = this.cart.getCartLines();
+    let cartLines: ICartItem[] = this.cart.getCartLines();
     if (this.iteratorIndex < cartLines.length) {
       result.value = cartLines[this.iteratorIndex];
       this.iteratorIndex++;
@@ -36,7 +35,7 @@ export class IterableCartDecorator implements ICart, ICartIterable {
   removeItem(cartItem: ICartItem): void {
     return this.cart.removeItem(cartItem)
   }
-  getCartLines(): IImmutableCartLine[] {
+  getCartLines(): ICartItem[] {
     return this.cart.getCartLines()
   }
   getSumPrice(): number {

@@ -1,6 +1,5 @@
 import { ICart, AbstractCartConstructor } from "../interfaces/ICart";
 import { ICartLine } from "../interfaces/ICartLine";
-import { IImmutableCartLine } from "../interfaces/IImmutableCartLine";
 import { ICartItem } from "../interfaces/ICartItem";
 import { IItemQuantity } from "../interfaces/IItemQuantity";
 import { ImmutableCartLine } from "./ImmutableCartLine";
@@ -42,11 +41,11 @@ export class Cart extends AbstractCartConstructor implements ICart {
   /**
    * Get immutable cart lines
    *
-   * @returns {IImmutableCartLine[]}
+   * @returns {ICartItem[]}
    * @memberof Cart
    */
-  getCartLines(): IImmutableCartLine[] {
-    let results: IImmutableCartLine[] = [];
+  getCartLines(): ICartItem[] {
+    let results: ICartItem[] = [];
     for (let index = 0; index < this.cartLines.length; index++) {
       const element = this.cartLines[index];
       results.push(

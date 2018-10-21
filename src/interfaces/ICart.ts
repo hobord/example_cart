@@ -1,14 +1,13 @@
 import { ICartItem } from "./ICartItem";
 import { ICartLineFactory } from "./ICartLineFactory";
 import { ICartLineStrategy } from "./ICartLineStrategy";
-import { IImmutableCartLine } from "./IImmutableCartLine";
 import { IItemQuantity } from "./IItemQuantity";
 
 export interface ICart {
   getId(): number | string;
   addItem(cartItem: ICartItem): void;
   removeItem(cartItem: ICartItem): void;
-  getCartLines(): IImmutableCartLine[];
+  getCartLines(): ICartItem[];
   getSumPrice(): number;
   getItemsIdWithQuantities(): IItemQuantity[];
   getAssocItemIdsQuantities(): number[];

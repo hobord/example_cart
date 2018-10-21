@@ -1,11 +1,10 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
 import { CartDbModel } from "./CartDbModel";
 import { ICartItem } from "../../../interfaces/ICartItem";
-import { IImmutableCartLine } from "../../../interfaces/IImmutableCartLine";
 
 @Entity('cart_line')
 export class CartLineDbModel implements ICartItem {
-  loadDataFromCartLine(cartLine: IImmutableCartLine): void {
+  loadDataFromCartLine(cartLine: ICartItem): void {
     this.itemId = <number>cartLine.getItemID();
     this.quantity = cartLine.getQuantity();
     this.unitPrice = cartLine.getUnitPrice();
