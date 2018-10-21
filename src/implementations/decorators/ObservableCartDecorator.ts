@@ -1,37 +1,29 @@
 import { ICartItem } from "../../interfaces/ICartItem";
-import { Cart } from "../Cart";
 import { ICart } from "../../interfaces/ICart";
 import { IImmutableCartLine } from "../../interfaces/IImmutableCartLine";
 import { IItemQuantity } from "../../interfaces/IItemQuantity";
 
-interface ISubject {
-  [key: string]: Subject;
+export interface Observable {
+  register(observer: Observer);
+  unregister(observer: Observer);
+  notify();
 }
 
-export class ObservableCartDecorator implements ICart {
-  constructor(protected cart: ICart) {}
+export class ObservableCartDecorator implements ICart, Observable {
+  protected subject: Subject;
 
-  // TODO: Interface / refactor
-  protected subjects: ISubject = {
-    updated: new Subject(),
-    itemAdded: new Subject(),
-    itemRemoved: new Subject(),
-    cartBeforeSave: new Subject(),
-    cartSaved: new Subject()
-  };
+  constructor(protected cart: ICart) {
+    this.subject = new Subject();
+  }
 
-  // TODO: Interface / refactor
-  getEventsNames(): string[] {
-    return Object.keys(this.subjects);
+  register(observer: Observer) {
+    this.subject.register(observer);
   }
-  getSubject(name: string): Subject {
-    return this.subjects[name];
+  unregister(observer: Observer) {
+    this.subject.unregister(observer);
   }
-  // TODO: Interface / refactor
-  registerToEvent(event: string, observer: Observer) {
-    if (event in this.subjects) {
-      this.subjects[event].register(observer);
-    }
+  notify() {
+    this.subject.notify();
   }
 
   getId(): string | number {
@@ -58,8 +50,7 @@ export class ObservableCartDecorator implements ICart {
    */
   addItem(cartItem: ICartItem): void {
     this.cart.addItem(cartItem);
-    this.subjects.updated.notify();
-    this.subjects.itemAdded.notify();
+    this.subject.notify();
   }
 
   /**
@@ -70,18 +61,21 @@ export class ObservableCartDecorator implements ICart {
    */
   removeItem(cartItem: ICartItem): void {
     this.cart.removeItem(cartItem);
-    this.subjects.updated.notify();
-    this.subjects.itemRemoved.notify();
+    this.subject.notify();
   }
 }
 
 class Subject {
   private observers: Observer[] = [];
-  /**
-   * Make observable
-   */
+
   register(observer: Observer): void {
     this.observers.push(observer);
+  }
+
+  unregister(observer: Observer): void {
+    var n: number = this.observers.indexOf(observer);
+    console.log(observer, "is removed");
+    this.observers.splice(n, 1);
   }
 
   notify(): void {
