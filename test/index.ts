@@ -10,7 +10,7 @@ createConnection({
   host: "localhost",
   port: 3306,
   username: "root",
-  password: "admin",
+  password: "mysql",
   database: "test",
   synchronize: true,
   entities: ["src/implementations/typeorm/entities/**/*.ts"],

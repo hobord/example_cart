@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, OneToMany} from "typeorm";
 import { CartLineDbModel } from "./CartLineDbModel";
 
-@Entity()
+@Entity('cart')
 export class CartDbModel {
 
   @PrimaryGeneratedColumn()

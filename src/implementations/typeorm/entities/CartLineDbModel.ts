@@ -3,7 +3,7 @@ import { CartDbModel } from "./CartDbModel";
 import { ICartItem } from "../../../interfaces/ICartItem";
 import { IImmutableCartLine } from "../../../interfaces/IImmutableCartLine";
 
-@Entity()
+@Entity('cart_line')
 export class CartLineDbModel implements ICartItem {
   loadDataFromCartLine(cartLine: IImmutableCartLine): void {
     this.itemId = <number>cartLine.getItemID();
@@ -12,7 +12,7 @@ export class CartLineDbModel implements ICartItem {
   }
 
   getItemID(): string | number {
-    return this.id;
+    return this.itemId;
   }
   
   getQuantity(): number {
